@@ -1,0 +1,22 @@
+{% extends 'base.html' %} 
+
+{%block app_content%}
+  <div class="container">
+    <div class="header clearfix">
+      <h3 class="text-muted">TrailsNearPitt</h3>
+    </div>
+
+    <div class="jumbotron bg-cover text-white" style="
+    color: white">
+      <div class="container">
+        <h1 class="display-4">Find hiking trails in Pittsburgh</h1>
+        <p class="lead">
+          To help everyone lead better healthier lives this app helps you find hiking trails in/around Pittsburgh
+        </p>
+        <a class="btn btn-primary btn-lg" href="{{url_for('trails') }}" role="button">Find Trails</a>
+      </div>
+    </div>
+  </div>
+  <!-- /container -->
+
+{% endblock %}
