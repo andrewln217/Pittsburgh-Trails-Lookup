@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<title>Trails Data</title>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+		<style>
+			body {
+				margin:0;
+				padding:0;
+			}
+			#map {
+				position: absolute;
+				top:0;
+				bottom:0;
+				width:100%;
+			}
+		</style>
+    </head>
+    
+	<body>
+		<div id="map"></div>
+		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+		<script>
+			var map = L.map('map', {
+				center: [40.4406, -79.9959]
+			});
+			
+			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				maxZoom: 18
+			}).addTo(map);
+			
+			var dataURL = "https://openac-alcogis.opendata.arcgis.com/datasets/d182439a9a6344fca2c5bf717b9cace8_0.geojson?outSR=%7B%22latestWkid%22%3A4019%2C%22wkid%22%3A4019%7D";
+			fetch(dataURL)
+				.then(response => {return response.json();})
+				.then(resJson => {
+					let resLayer = L.geoJSON(resJson, {
+						onEachFeature: (feature, layer) => {
+							layer.bindPopup(`${feature.properties.Park_Name_Full}<br> 
+											 ${feature.properties.Trail_Name}`, {offset: L.point(0, -20)});
+							layer.on('mouseover', function() { layer.openPopup(); });
+							layer.on('mouseout', function() { layer.closePopup(); });
+						}
+					}).addTo(map);
+					map.fitBounds(resLayer.getBounds())
+				})
+		</script>
+    </body>
+</html>
