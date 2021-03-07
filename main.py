@@ -40,14 +40,11 @@ def login():
         if "user" in session:
             return redirect(url_for("home"))
         return render_template("login.html")
+        
+@app.route("/profile")
+def profile():
+    return render_template("profile.html")
 
-@app.route("/user")
-def user():
-    if "user" in session:
-        user = session["user"]
-        return f"<h1>{user}</h1>"
-    else:
-        return redirect(url_for("login"))
 
 @app.route("/logout")
 def logout():
