@@ -1,22 +1,124 @@
 {% extends 'base.html' %} 
 
 {%block app_content%}
-  <div class="container">
-    <div class="header clearfix">
-      <h3 class="text-muted">TrailsNearPitt</h3>
-    </div>
 
-    <div class="jumbotron bg-cover text-white" style="
-    color: white">
-      <div class="container">
-        <h1 class="display-4">Find hiking trails in Pittsburgh</h1>
-        <p class="lead">
-          To help everyone lead better healthier lives this app helps you find hiking trails in/around Pittsburgh
-        </p>
-        <a class="btn btn-primary btn-lg" href="{{url_for('trails') }}" role="button">Find Trails</a>
-      </div>
-    </div>
-  </div>
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/w3css/3/w3.css">
+<body>
+
+<head>
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+</style>
+</head>
+<body>
+
+<ul>
+    <li><a href= "{{ url_for('logout') }}">Log Out</a></li>
+    <li><a href= "{{ url_for('trails') }}">Map</a></li>
+    <li><a class="active" href="{{url_for('home')}}">Home</a></li>
+  
+  
+   
+  
+</ul>
+
+
+
+</body>
+
+<p>Looking for the best trails in Pittsburgh? Browse around to plan your next trek! </p>
+<style>
+body {
+  font-family: Arial;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+form.searchbar input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 50%;
+  background: #f1f1f1;
+}
+
+form.searchbar button {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  background: rgb(20, 184, 61);
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.searchbar button:hover {
+  background: #09833c;
+}
+
+form.searchbar::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+<body>
+
+
+<form class = "searchbar" action="{{ url_for('search') }}" method="post">
+    <input type="text" name="final--group-four/main.py" placeholder = "Search by Trail Name">
+    <button type="submit"><i class="fa fa-search"></i>Go!</button>
+</form>
+ 
+
+<section>
+  <img class="mySlides" src="pic1.jpg" style="width:100%">
+  <img class="mySlides" src="pic2.jpg" style="width:100%">
+  <img class="mySlides" src="pic3.jpg" style="width:100%">
+</section>
+
+</body>
+
+
+
+</html>
+
+
+
+
+
   <!-- /container -->
 
 {% endblock %}
