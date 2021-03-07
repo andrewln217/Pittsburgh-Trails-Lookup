@@ -18,8 +18,8 @@ def home():
 
 @app.route("/trails")  
 def trails():
-    """ For right now this just loads Andrew's html file """
-    return render_template("fetch_trails_data.html")
+    """ loads map_page.html """
+    return render_template("map_page.html")
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
