@@ -16,7 +16,7 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: rgba(20, 90, 23, 0.877);
 }
 
 li {
@@ -32,9 +32,13 @@ li a {
 }
 
 li a:hover {
-  background-color: #111;
+  background-color: rgb(30, 190, 57);
 }
+
 </style>
+<div class = "header">
+<img src="{{url_for('static', filename='logo.png')}}" align="middle" width="10%" />
+</div>
 </head>
 <body>
 
@@ -76,7 +80,7 @@ form.searchbar button {
   float: left;
   width: 30%;
   padding: 10px;
-  background: rgb(20, 184, 61);
+  background: rgba(20, 90, 23, 0.877);
   color: white;
   font-size: 17px;
   border: 1px solid grey;
@@ -105,9 +109,9 @@ form.searchbar::after {
  
 
 <section>
-  <img class="mySlides" src="pic1.jpg" style="width:100%">
-  <img class="mySlides" src="pic2.jpg" style="width:100%">
-  <img class="mySlides" src="pic3.jpg" style="width:100%">
+  <img class="mySlides" src="{{url_for('static', filename='pic1.jpg')}}" style="width:100%">
+  <img class="mySlides" src="{{url_for('static', filename='pic2.jpg')}}" style="width:100%">
+  <img class="mySlides" src="{{url_for('static', filename='pic3.jpg')}}"" style="width:100%">
 </section>
 
 </body>
