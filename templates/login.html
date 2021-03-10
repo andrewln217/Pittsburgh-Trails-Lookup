@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitt Trails</title>
+<style>main {
+    padding-top: 52px;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+form {
+    text-align: center;
+}
+
+.em_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+
+.pw_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+
+
+.signin_button{
+    border-radius: 25px;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border: none;
+    width: 200px;
+}
+
+#forgot {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+    background: none;
+    color: green;
+}
+
+
+</style>
+    <main>
+        
+        <form method="post" action="{{ url_for('login') }}" >
+            <p id="emailhelp">Please enter your email</p>
+            
+            <input required type="email" class="em_input_section" id="email" placeholder="Email" name="email"><br><br>
+            <p id="passwordhelp">Please enter your password</p>
+            
+            <input required type="password" class="pw_input_section" id="password" placeholder="Password" name="password"><br><br>
+            <input type="submit" class="signin_button" value="Sign In">
+        </form>
+        <button id="forgot" class="center" onclick="sayhello">Forgot Password</button>
+        <h6 class="center">New to Pitt Trails? <a href="{{url_for('create')}}">Join now</a></h6>
+        
+    </main>
+
+</head>    
+</html>
