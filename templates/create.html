@@ -64,7 +64,10 @@ form {
 </style>
 
 <div class="centered">
-  <form action="/create" method="POST">
+
+  <form method="POST" action="{{ url_for('create') }}">
+
+ 
     <p>
       <p id="emailhelp">Please enter your email</p>
       <input type="email" class="em_input_section"  id="email" name="email" placeholder="john123@abc.com" required>
