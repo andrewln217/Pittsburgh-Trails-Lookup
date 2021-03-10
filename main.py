@@ -6,6 +6,10 @@ import json
 
 from user import UserStore, generate_credentials, hash_password
 
+app = Flask(__name__)
+app.secret_key = "hello"
+bootstrap = Bootstrap(app)
+app.register_blueprint(errors_bp)
 
 datastore = datastore.Client()
 userstore = UserStore(datastore)
@@ -50,16 +54,16 @@ def create():
     if request.method == "GET":
         user = get_user()
         if user:
-            return redirect("/home")
+            return redirect(url_for("home"))
         return render_template("create.html")
     else:    
         user = request.form.get("user_email")
         password = request.form.get("password")
-        if user_email in userstore.list_existing_users():
-            return render_template(url_for("create"), error="User with that email already exists")
-        userstore.store_new_credentials(generate_credentials(user_email, password))
+        if user in userstore.list_existing_users():
+            return render_template("create.html")
+        userstore.store_new_credentials(generate_credentials(user, password))
         session["user"] = user
-        return redirect("/home")
+        return redirect(url_for("home"))
 
 @app.route("/profile")
 def profile():
