@@ -39,9 +39,12 @@ def search():
 def login():
     session.permanent = False
     if request.method == "POST":
-        user = request.form['email']
+        user_email = request.form['email']
         password = request.form['password']
-        session["user"] = user
+        user = userstore.verify_pass(user_email, password)
+        if not user:
+            return render_template("login.html", error="Incorrect password")
+        session["user"] = user_email
         return redirect(url_for("home"))
     else:
         if "user" in session:
@@ -50,17 +53,16 @@ def login():
 
 @app.route("/create", methods=["POST","GET"])
 def create():
-    session.permanent = False
     if request.method == "GET":
         user = get_user()
         if user:
             return redirect(url_for("home"))
         return render_template("create.html")
     else:    
-        user = request.form.get("user_email")
+        user = request.form.get("email")
         password = request.form.get("password")
         if user in userstore.list_existing_users():
-            return render_template("create.html")
+            return render_template("create.html", error="A user with that email already exists")
         userstore.store_new_credentials(generate_credentials(user, password))
         session["user"] = user
         return redirect(url_for("home"))

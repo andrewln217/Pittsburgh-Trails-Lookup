@@ -9,7 +9,7 @@ class UserCredential:
         self.user_email = user_email
         self.password_hash = password_hash
         self.salt = salt
-        
+
 
 def generate_credentials(user_email, password):
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode("utf-8")
@@ -33,13 +33,16 @@ class UserStore:
         hash_attempt = hash_password(password, user["salt"])
         if hash_attempt != user["password_hash"]:
             return None
-        return UserCredential(user["user_email"], user["password"], user["salt"])
-        
+        return UserCredential(user["user_email"], user["password_hash"], user["salt"])
+
     def store_new_credentials(self, creds, txn=None):
-        user_key = self.ds.query(kind="UserCredential")
-        users = query.fetch()
-        return [u["user_email"] for u in users if "user_email" in u]
-        
+        user_key = self.ds.key("UserCredential", creds.user_email)
+        user = datastore.Entity(key=user_key)
+        user["user_email"] = creds.user_email
+        user["password_hash"] = creds.password_hash
+        user["salt"] = creds.salt
+        self.ds.put(user)
+
     def list_existing_users(self, txn=None):
         query = self.ds.query(kind="UserCredential")
         users = query.fetch()
