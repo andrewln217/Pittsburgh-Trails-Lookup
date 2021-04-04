@@ -47,50 +47,236 @@
     </head>
     
 	
-	<ul>
-    <li><a href= "{{ url_for('logout') }}">Log Out</a></li>
-     <li><a href="{{url_for('profile')}}">Profile</a></li>
-    <li><a href= "{{ url_for('trails') }}">Map</a></li>
-    <li><a class="active" href="{{url_for('home')}}">Home</a></li>
-  
-  
-   
-  
-</ul>
+    <ul>
+        <li><a href= "{{ url_for('logout') }}">Log Out</a></li>
+        <li><a href="{{url_for('profile')}}">Profile</a></li>
+        <li><a href= "{{ url_for('trails') }}">Map</a></li>
+        <li><a class="active" href="{{url_for('home')}}">Home</a></li> 
+    </ul>
 	
 	
 	<body>
 		<h>Trails Map</h>
-		<div id="map"></div>
+        <div id="map"></div>
+        <div id="difficulty"></div><br>
+        <div id="park_name"></div><br>
+        <div id="trail_name"></div>
+        
 		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 		<script>
+            var center = [40.4406, -79.9959];
 			var map = L.map('map', {
-				center: [40.4406, -79.9959]
-			});
+			}).setView(center,9);
 			
 			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				maxZoom: 18
 			}).addTo(map);
-			
+            
+            var dataURL = "https://openac-alcogis.opendata.arcgis.com/datasets/d182439a9a6344fca2c5bf717b9cace8_0.geojson?outSR=%7B%22latestWkid%22%3A4019%2C%22wkid%22%3A4019%7D";
+			fetch(dataURL)
+                .then(response => response.json())
+                .then(data => {
+                    // Dynamically construct checkboxes
+                    var difs = new Set();
+                    var park_names = new Set();
+                    var trail_names = new Set()
+                    
+                    for (var i in data.features) {
+                        var feature = data.features[i];
+                        if (feature.properties.Difficulty !== null)
+                            difs.add(feature.properties.Difficulty);
+                        if (feature.properties.Park_Name_Full !== null && feature.properties.Park_Name_Full !== " ")
+                            park_names.add(feature.properties.Park_Name_Full);
+                        if (feature.properties.Trail_Name !== null && feature.properties.Trail_Name !== " ")
+                            trail_names.add(feature.properties.Trail_Name);
+                    }
+                    
+                    for (let dif of difs) {
+                        var checkbox = document.createElement('input');
+                            checkbox.type = "checkbox";
+                            checkbox.class = "difficulty";
+                            checkbox.value = dif;
+                            checkbox.id = dif;
+                            //checkbox.checked = true;
+                        var label = document.createElement("label");
+                            label.htmlFor = dif;
+                            label.appendChild(document.createTextNode(dif));
+                        var container = document.getElementById('difficulty');
+                            container.appendChild(checkbox);
+                            container.appendChild(label);
+                    }
+
+                    for (let park of park_names) {
+                        var checkbox = document.createElement('input');
+                            checkbox.type = "checkbox";
+                            checkbox.class = "park_name";
+                            checkbox.value = park;
+                            checkbox.id = park;
+                            //checkbox.checked = true;
+                        var label = document.createElement("label");
+                            label.htmlFor = park;
+                            label.appendChild(document.createTextNode(park));
+                        var container = document.getElementById('park_name');
+                            container.appendChild(checkbox);
+                            container.appendChild(label);
+                    }
+
+                    for (let trail of trail_names) {
+                        var checkbox = document.createElement('input');
+                            checkbox.type = "checkbox";
+                            checkbox.class = "trail_name";
+                            checkbox.value = trail;
+                            checkbox.id = trail;
+                            //checkbox.checked = true;
+                        var label = document.createElement("label");
+                            label.htmlFor = trail;
+                            label.appendChild(document.createTextNode(trail));
+                        var container = document.getElementById('trail_name');
+                            container.appendChild(checkbox);
+                            container.appendChild(label);
+                    }
+                                        
+                    // Filter/render
+                    let checkboxStates;
+                    
+                    function onEachFeature(feature, layer) {
+							layer.bindPopup(`Park Name: ${feature.properties.Park_Name_Full}<br>
+											 Trail Name: ${feature.properties.Trail_Name}<br>
+                                             Difficulty: ${feature.properties.Difficulty}`, {offset: L.point(0, -20)});
+							layer.on('mouseover', function() { layer.openPopup(); });
+							layer.on('mouseout', function() { layer.closePopup(); });
+                    }
+
+                    const geoJsonLayer = L.geoJSON(null, {
+                        filter: (feature) => {
+                            if(checkboxStates.difficulties.length > 0) { // If no checkboxes of a certain class are selected, show all
+                                var isDifficultyChecked = checkboxStates.difficulties.includes(feature.properties.Difficulty);
+                            } else { isDifficultyChecked = true;}
+                            if(checkboxStates.park_names.length > 0) {
+                                var isParkChecked = checkboxStates.park_names.includes(feature.properties.Park_Name_Full);
+                            } else { isParkChecked = true;}
+                            if(checkboxStates.trail_names.length > 0) {
+                                var isTrailChecked = checkboxStates.trail_names.includes(feature.properties.Trail_Name);
+                            } else { 
+                                isTrailChecked = true;
+                            }
+                            
+                            return isDifficultyChecked && isParkChecked && isTrailChecked; // Need properties of each class to be true to show
+                        },
+                        onEachFeature, onEachFeature
+                    }).addTo(map);
+                    
+                    function updateCheckboxStates() {
+                        checkboxStates = {
+                            difficulties: [],
+                            park_names: [],
+                            trail_names: []
+                        }
+                        
+                        for (let input of document.querySelectorAll('input')) {
+                            if(input.checked) {
+                                switch(input.class) {
+                                    case "difficulty": 
+                                        checkboxStates.difficulties.push(input.value);
+                                        break;
+                                    case "park_name": 
+                                        checkboxStates.park_names.push(input.value);
+                                        break;
+                                    case "trail_name": 
+                                        checkboxStates.trail_names.push(input.value);
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                                       
+                    for(let input of document.querySelectorAll('input')) {
+                        input.onchange = (e) => {
+                            geoJsonLayer.clearLayers();
+                            updateCheckboxStates();
+                            geoJsonLayer.addData(data);
+                        }
+                    }
+
+                    updateCheckboxStates();
+                    geoJsonLayer.addData(data);               
+                });
+
+            /*var layerControl = new L.control.layers();
+
 			var dataURL = "https://openac-alcogis.opendata.arcgis.com/datasets/d182439a9a6344fca2c5bf717b9cace8_0.geojson?outSR=%7B%22latestWkid%22%3A4019%2C%22wkid%22%3A4019%7D";
 			fetch(dataURL)
 				.then(response => {return response.json();})
-				.then(resJson => {
-					let resLayer = L.geoJSON(resJson, {
-						onEachFeature: (feature, layer) => {
-							layer.bindPopup(`${feature.properties.Park_Name_Full}<br> 
-											 ${feature.properties.Trail_Name}<br>
-											 ${feature.properties.Difficulty}`, {offset: L.point(0, -20)});
+				.then(data => {
+                    function onEachFeature(feature, layer) {
+							layer.bindPopup("Park Name: " + `${feature.properties.Park_Name_Full}<br> 
+											 "Trail Name: " + ${feature.properties.Trail_Name}<br>
+											 "Difficulty: " + ${feature.properties.Difficulty}`, {offset: L.point(0, -20)});
 							layer.on('mouseover', function() { layer.openPopup(); });
 							layer.on('mouseout', function() { layer.closePopup(); });
-						}
-					}).addTo(map);
-					map.fitBounds(resLayer.getBounds())
-				})
+                    }
+                    
+                    // Layer containing all trails
+                    var all_trails = L.geoJSON(data, {
+                        onEachFeature: onEachFeature
+                    });
+
+                    // Creates lists of difficulties, trail names, park names
+                    var difficulties = new Set();
+                    var park_names = new Set();
+                    var trail_names = new Set();
+
+                    for (var i in data.features) {
+                        var feature = data.features[i];
+                        if (feature.properties.Difficulty !== null)
+                            difficulties.add(feature.properties.Difficulty);
+                        if (feature.properties.Park_Name_Full !== null && feature.properties.Park_Name_Full !== " ")
+                            park_names.add(feature.properties.Park_Name_Full);
+                        if (feature.properties.Trail_Name !== null && feature.properties.Trail_Name !== " ")
+                            trail_names.add(feature.properties.Trail_Name);
+                            
+                    }
+                    
+                    
+                    // Create a layer filtered by trails with a specific difficulty
+                    for(let difficulty of difficulties) {
+                        var layer = L.geoJSON(data, {
+                            filter: (feature) => {
+                                return feature.properties.Difficulty === difficulty;
+                            },
+                            onEachFeature: onEachFeature,
+                        });                        
+                        layerControl.addOverlay(layer, difficulty);
+                    }
+                    
+                    // Create a layer filtered by trails with a specific park name
+                    for(let park_name of park_names) {
+                        var layer = L.geoJSON(data, {
+                            filter: (feature) => {
+                                return feature.properties.Park_Name_Full === park_name;
+                            },
+                            onEachFeature: onEachFeature,
+                        });                        
+                        layerControl.addOverlay(layer, park_name);
+                    }
+
+                    // Create a layer filtered by trails with a specific difficulty
+                    for(let trail_name of trail_names) {
+                        var layer = L.geoJSON(data, {
+                            filter: (feature) => {
+                                return feature.properties.Trail_Name === trail_name;
+                            },
+                            onEachFeature: onEachFeature,
+                        });                        
+                        layerControl.addOverlay(layer, trail_name);
+                    }
+                    
+                    map.fitBounds(all_trails.getBounds());
+                    layerControl.addTo(map);
+				})*/
 		</script>
     </body>
 
-	
 </html>
 
 
