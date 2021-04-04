@@ -63,9 +63,9 @@ form {
 
 </style>
 
-<div class="centered">
+<main>
 
-  <form method="POST" action="{{ url_for('create') }}">
+  <form action="{{ url_for('create') }}" method="POST">
 
  
     <p>
@@ -86,13 +86,15 @@ form {
 
     <button type="submit" class="create_button">Sign Up</button>
   </form>
-</div>
+</main>
 
 <script>
 	var user_email = document.getElementById("user_email");
 	var password = document.getElementById("password");
 	var confirm_password = document.getElementById("confirm-password");
-	
+    
+    
+    
 	function validatePassword()
 	{
 	  if(password.value != confirm_password.value)
