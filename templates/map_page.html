@@ -4,6 +4,37 @@
 <!DOCTYPE html>
 
 <html>
+<head>
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgba(20, 90, 23, 0.877);
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: rgb(30, 190, 57);
+}
+
+</style>
+<div class = "header">
+<img src="{{url_for('static', filename='logo.png')}}" align="middle" width="10%" />
+</div>
+</head>    
     <head>
         <meta charset="utf-8" />
 		<title>Trails Data</title>
@@ -20,13 +51,7 @@
 				width:600px;
 				height:400px
 			}
-			ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			background-color: #333;
-			}
+			
 
 			li {
 			float: right;

@@ -65,9 +65,11 @@ def create():
         session["user"] = user
         return redirect(url_for("home"))
 
-@app.route("/profile")
+@app.route("/profile",methods=["POST","GET"])
 def profile():
-    return render_template("profile.html")
+    user = get_user()
+    user = request.form.get("user_email")    
+    return render_template("profile.html",user)
 
 def get_user():
     return session.get("user", None)
