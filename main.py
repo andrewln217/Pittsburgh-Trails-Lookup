@@ -71,7 +71,7 @@ def create():
 def profile():
     user = get_user()
     user = request.form.get("user_email")    
-    return render_template("profile.html",user)
+    return render_template("profile.html",userinfo = user)
 
 def get_user():
     return session.get("user", None)
