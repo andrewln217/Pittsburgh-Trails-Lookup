@@ -68,9 +68,17 @@ def create():
 @app.route("/profile",methods=["POST","GET"])
 def profile():
     user = get_user()
-    user = request.form.get("user_email")    
-    return render_template("profile.html",user)
+    return render_template("profile.html",userinfo= user)
+@app.route("/updateinfo", methods = ["POST","GET"])
+def update_info():
+    user = get_user()
+    if request.form == "POST":
+        name = request.form.get("name")
+        profile_pic = request.form.get("image")
+        bio = request.form.get("bio")
+        userstore.update_profile(name,bio,profile_pic)
 
+    return render_template("updateinfo.html")
 def get_user():
     return session.get("user", None)
 

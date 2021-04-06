@@ -5,10 +5,13 @@ import hashlib
 import os
 
 class UserCredential:
-    def __init__(self, user_email, password_hash, salt):
+    def __init__(self, user_email, password_hash, salt, name, bio, pro_pic):
         self.user_email = user_email
         self.password_hash = password_hash
         self.salt = salt
+        self.name = name
+        self.bio = bio
+        self.pro_pic = pro_pic
         
 
 def generate_credentials(user_email, password):
@@ -44,3 +47,9 @@ class UserStore:
         query = self.ds.query(kind="UserCredential")
         users = query.fetch()
         return [u["user_email"] for u in users if "user_email" in u]
+
+    def update_profile(self,name,bio,pro_pic):
+        user_key = self.ds.query(kind="UserCredential")
+        users = query.fetch()
+        return [u["name"] for u in users if "name" in u]
+        
