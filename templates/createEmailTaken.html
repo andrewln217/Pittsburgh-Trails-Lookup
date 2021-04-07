@@ -1,0 +1,156 @@
+{% extends 'base.html' %} 
+{% block title %}Create{% endblock %}
+
+{%block app_content%}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitt Trails</title>
+<style>main {
+    padding-top: 52px;
+}
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  margin-bottom: 15px;
+}
+
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+
+.closebtn:hover {
+  color: black;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+form {
+    text-align: center;
+}
+
+.em_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+
+.pw_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+
+.cpw_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+.create_button{
+    border-radius: 25px;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border: none;
+    width: 200px;
+}
+
+#forgot {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+    background: none;
+    color: green;
+}
+
+
+</style>
+
+<main>
+<div class="alert">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  Email Already Used
+</div>
+
+  <form action="{{ url_for('create') }}" method="POST">
+
+ 
+    <p>
+      <p id="emailhelp">Please enter your email</p>
+      <input type="email" class="em_input_section"  id="email" name="email" placeholder="john123@abc.com" required>
+    </p>
+
+    <p>
+      <p id="passwordhelp">Please enter your password</p>
+      <input type="password" class="pw_input_section"  id="password" name="password" required>
+    </p>
+
+    <p>
+      <p id="passwordhelp">Please confirm your password</p>
+      <input type="password" class="cpw_input_section"  id="confirm-password" name="confirm-password" required>
+    </p>
+
+
+    <button type="submit" class="create_button">Sign Up</button>
+  </form>
+</main>
+
+<script>
+	var user_email = document.getElementById("user_email");
+	var password = document.getElementById("password");
+	var confirm_password = document.getElementById("confirm-password");
+    
+    
+    
+	function validatePassword()
+	{
+	  if(password.value != confirm_password.value)
+      {
+          console.log(password.value);
+          console.log(confirm_password.value);
+          console.log(password.value != confirm_password.value);
+          confirm_password.setCustomValidity("Passwords Don't Match");
+          confirm_password.reportValidity();
+      } 
+      else if(password.value.trim() == "")
+      {
+          password.setCustomValidity("Passwords must not be empty");
+          password.reportValidity();
+      }
+	  else
+      {
+          password.setCustomValidity("");
+          password.reportValidity();
+          confirm_password.setCustomValidity("");
+          confirm_password.reportValidity();
+      }
+	}
+	
+	password.onchange = validatePassword;
+	confirm_password.onchange = validatePassword;
+
+
+
+</script>
+
+{% endblock %}
