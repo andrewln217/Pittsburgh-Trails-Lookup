@@ -1,0 +1,105 @@
+{% extends 'base.html' %} 
+
+
+{%block app_content%}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitt Trails</title>
+<style>main {
+    padding-top: 52px;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+form {
+    text-align: center;
+}
+
+.em_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+
+.pw_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+
+.cpw_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+.finish_button{
+    border-radius: 25px;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border: none;
+    width: 200px;
+}
+
+#forgot {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+    background: none;
+    color: green;
+
+
+
+}
+.name{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: x-large;
+    font-style: oblique;
+    color: green;
+}
+
+
+
+
+</style>
+
+<div class="centered">
+
+  <form method="POST" action="{{ url_for('profile') }}">
+
+ 
+    <p>
+      <p id="name" class = "name">First and Last Name</p>
+      <input type="text" class="em_input_section"  id="name" name="name" placeholder="John Doe">
+    </p>
+    <p id="upload" class = "name">Upload a Profile Picture</p>
+    <p> <input id="image" type="file" name="profile_photo" placeholder="Photo" required="" capture> </p>
+    <p>
+      <p id="Bio" class = "name">Tell the Pitt Trails Community about Yourself!</p>
+      <textarea name="textarea" id = "bio" style="width:250px;height:150px;"></textarea>
+
+    </p>
+
+    
+
+
+    <button type="submit" class="finish_button">Finish</button>
+  </form>
+</div>
+<script>
+	var name = document.getElementById("name");
+	var propic = document.getElementById("image");
+	var bio = document.getElementById("bio");
+</script>
+{% endblock %}

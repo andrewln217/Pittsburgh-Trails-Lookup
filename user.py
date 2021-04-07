@@ -47,3 +47,22 @@ class UserStore:
         query = self.ds.query(kind="UserCredential")
         users = query.fetch()
         return [u["user_email"] for u in users if "user_email" in u]
+
+    def update_profile(self,user_email,name,bio,pro_pic):
+        user_key = self.ds.key("UserCredential",user_email)
+        user = datastore.Entity(key=user_key)
+        user["name"] = name
+        user["bio"] = bio
+        user["pro_pic"] = pro_pic
+        self.ds.put(user)
+    def get_profile(self,user_email):
+        print(user_email)
+        query = self.ds.key("UserCredential", user_email)       
+        found_user = self.ds.get(query)
+        print(found_user)
+        
+        return found_user;
+
+        #return {"name":found_user["name"],"bio":found_user["bio"],"pro_pic":found_user["pro_pic"]}
+
+        

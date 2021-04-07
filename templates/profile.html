@@ -7,6 +7,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/w3css/3/w3.css">
+<head>
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgba(20, 90, 23, 0.877);
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: rgb(30, 190, 57);
+}
+
+</style>
+<div class = "header">
+<img src="{{url_for('static', filename='logo.png')}}" align="middle" width="10%" />
+</div>
+</head>    
+    <head>
+        <meta charset="utf-8" />
+		<title>Trails Data</title>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	
+    </head>
 <style>
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -42,70 +79,44 @@ a {
 
 button:hover, a:hover {
   opacity: 0.7;
+
+  
+}
+.update {
+   background-color: rgba(20, 90, 23, 0.877);
+   
 }
 </style>
-</head>
-
-<body>
-
-<head>
-<style>
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-}
-
-li {
-  float: right;
-}
-
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-li a:hover {
-  background-color: #111;
-}
-</style>
-</head>
-<body>
-
 <ul>
     <li><a href= "{{ url_for('logout') }}">Log Out</a></li>
      <li><a href="{{url_for('profile')}}">Profile</a></li>
     <li><a href= "{{ url_for('trails') }}">Map</a></li>
     <li><a class="active" href="{{url_for('home')}}">Home</a></li>
   
-  
-   
-  
 </ul>
+</head>
+
+
 <body>
 
 
 
 <div class="card">
   <img src="/w3images/team2.jpg" alt="John" style="width:100%">
-  <h1>John Doe</h1>
+  <h1>{{name}}</h1>
   <p class="title">{{userinfo}}</p>
-  <p>Harvard University</p>
+  <p>{{bio}}</p>
   <div style="margin: 24px 0;">
     <a href="#"><i class="fa fa-dribbble"></i></a> 
     <a href="#"><i class="fa fa-twitter"></i></a>  
     <a href="#"><i class="fa fa-linkedin"></i></a>  
     <a href="#"><i class="fa fa-facebook"></i></a> 
   </div>
-  <p><button>Contact</button></p>
+  <li><a class = update href= "{{ url_for('update_info') }}">Update Info</a></li>
 </div>
+
 
 </body>
 
-
+</html>
 {% endblock %}
