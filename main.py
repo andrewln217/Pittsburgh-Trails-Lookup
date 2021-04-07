@@ -43,7 +43,7 @@ def login():
         password = request.form['password']
         user = userstore.verify_pass(user_email, password)
         if not user:
-            return render_template("login.html", error="Incorrect password")
+            return render_template("loginWrongPass.html", error="Incorrect password")
         session["user"] = user_email
         return redirect(url_for("home"))
     else:
@@ -62,7 +62,7 @@ def create():
         user = request.form.get("email")
         password = request.form.get("password")
         if user in userstore.list_existing_users():
-            return render_template("create.html", error="A user with that email already exists")
+            return render_template("createEmailTaken.html", error="A user with that email already exists")
         userstore.store_new_credentials(generate_credentials(user, password))
         session["user"] = user
         return redirect(url_for("home"))
