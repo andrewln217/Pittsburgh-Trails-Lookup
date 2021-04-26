@@ -24,7 +24,7 @@ li {
 }
 
 li a {
-  display: block;
+  display: block;	
   color: white;
   text-align: center;
   padding: 14px 16px;
@@ -97,21 +97,33 @@ form.searchbar::after {
   clear: both;
   display: table;
 }
+
+.select2-container {
+    width: 200px;
+}
+
+.select2-drop-active{
+    margin-top: -25px;
+}
 </style>
 </head>
 <body>
-
-
-<form class = "searchbar" action="{{ url_for('search') }}" method="post">
+    <select class="js-data-park-names" multiple="multiple" style="width: 50%">
+        <option></option>        
+    </select>
+    
+<!--<form class = "searchbar" action="{{ url_for('search') }}" method="post">
     <input type="text" name="final--group-four/main.py" placeholder = "Search by Trail Name">
     <button type="submit"><i class="fa fa-search"></i>Go!</button>
-</form>
- 
+</form>-->
+    <script defer src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <section>
-  <img class="mySlides" src="{{url_for('static', filename='pic1.jpg')}}" style="width:100%">
-  <img class="mySlides" src="{{url_for('static', filename='pic2.jpg')}}" style="width:100%">
-  <img class="mySlides" src="{{url_for('static', filename='pic3.jpg')}}"" style="width:100%">
+    <img class="mySlides" src="{{url_for('static', filename='pic1.jpg')}}" style="width:100%">
+    <img class="mySlides" src="{{url_for('static', filename='pic2.jpg')}}" style="width:100%">
+    <img class="mySlides" src="{{url_for('static', filename='pic3.jpg')}}"" style="width:100%">
 </section>
 
 </body>
@@ -119,6 +131,30 @@ form.searchbar::after {
 
 
 </html>
+
+    <script>
+        var dataURL = "https://openac-alcogis.opendata.arcgis.com/datasets/d182439a9a6344fca2c5bf717b9cace8_0.geojson?outSR=%7B%22latestWkid%22%3A4019%2C%22wkid%22%3A4019%7D";
+        fetch(dataURL)
+        .then(response => response.json())
+        .then(data => {
+            var park = []
+            for (var i in data.features) {
+                var feature = data.features[i];
+                if (feature.properties.Park_Name_Full !== null &&
+                feature.properties.Park_Name_Full !== " " &&
+                park.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1) {
+                park.push({ id: park.length, text: feature.properties.Park_Name_Full, trail: feature });
+                }
+            }
+
+            //var b$ = jQuery.noConflict();
+            $('.js-data-park-names').select2({
+                data: park,
+                placeholder: 'Search by park name'
+            });
+        })
+    
+    </script>
 
 
 
