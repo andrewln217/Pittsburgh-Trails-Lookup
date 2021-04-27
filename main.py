@@ -5,7 +5,6 @@ from google.cloud import datastore
 import json
 
 from user import UserStore, generate_credentials, hash_password
-profile_updated = False
 app = Flask(__name__)
 app.secret_key = "hello"
 bootstrap = Bootstrap(app)
@@ -69,43 +68,40 @@ def create():
 
 @app.route("/profile",methods=["POST","GET"])
 def profile():
-    global profile_updated
     user = get_user()
-    
-    
-    if profile_updated == True:
-      found_user = userstore.get_profile(user)
-      name = found_user["name"]
-      bio = found_user["bio"]
-      pro_pic = found_user["pro_pic"]
-      return render_template("profile.html",userinfo=user,name=name,bio=bio,pro_pic=pro_pic)
-    return render_template("profile.html",userinfo=user)
+    found_user = userstore.get_profile(user)
+    name = found_user["name"]
+    bio = found_user["bio"]
+    pro_pic = found_user["pro_pic"]
+    return render_template("profile.html",userinfo=user,name=name,bio=bio,pro_pic=pro_pic)
 
 
-    
-
-@app.route("/updateinfo", methods = ["POST","GET"])
+@app.route("/update_info", methods = ["POST","GET"])
 def update_info():
-    global profile_updated    
-    user = get_user()
-    if request.method == "GET":
-        return render_template(("updateinfo.html"))
-    else:
+    if request.method == "POST":    
+        user = get_user()
+        found_user = userstore.get_profile(user)
         name = request.form.get("fullname")
-        profile_pic = request.form.get("pro_pic")
-        bio = request.form.get("bio")
-        print(name)
-        userstore.update_profile(user,name,bio,profile_pic)
-        profile_updated = True
-        return redirect(url_for("profile"))        
-    
-        
-   
-    
-    
-        
-         
-    return render_template("updateinfo.html")
+        bio = request.form.get("fullbio")
+        pro_pic = found_user["pro_pic"]
+        userstore.update_profile(user, name, bio, pro_pic)
+        return redirect(url_for("profile"))
+    else:
+        return render_template("updateinfo.html")
+
+@app.route("/pic_update", methods = ["POST","GET"])
+def pic_update():
+    if request.method == "POST":
+        user = get_user()
+        found_user = userstore.get_profile(user)
+        name = found_user["name"]
+        bio = found_user["bio"]
+        pro_pic = request.form.get("choice")
+        userstore.update_profile(user, name, bio, pro_pic)
+        return redirect(url_for("profile"))
+    else:
+        return render_template("pic_update.html")        
+
 
 def get_user():
     return session.get("user", None)

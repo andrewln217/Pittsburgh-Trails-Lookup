@@ -1,0 +1,120 @@
+{% extends 'base.html' %} 
+
+
+{%block app_content%}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitt Trails</title>
+<style>main {
+    padding-top: 52px;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+form {
+    text-align: center;
+}
+
+.em_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+
+.pw_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+
+.cpw_input_section{
+    border-radius: 15px;
+    padding: 10px;
+    width: 300px;
+    margin-left: -10px;
+}
+.finish_button{
+    border-radius: 25px;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border: none;
+    width: 200px;
+}
+
+#forgot {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+    background: none;
+    color: green;
+
+
+
+}
+.namex{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: x-large;
+    font-style: oblique;
+    color: green;
+}
+
+
+
+
+</style>
+
+<div class="centered">
+
+  <form action="{{ url_for('pic_update') }}" method="POST">
+
+ <label>
+  <input type="radio" name="choice" value="/static/dog.jpg" required>
+  <img src={{ url_for('static', filename='dog.jpg') }} style="width:100px;height:100px;">
+</label>
+
+<label>
+  <input type="radio" name="choice" value="/static/cat.jpg" required>
+  <img src={{ url_for('static', filename='cat.jpg') }} style="width:100px;height:100px;">
+</label>
+
+<label>
+  <input type="radio" name="choice" value="/static/duck.jpg" required>
+  <img src={{ url_for('static', filename='duck.jpg') }} style="width:100px;height:100px;">
+</label>
+
+<label>
+  <input type="radio" name="choice" value="/static/bunny.jpg" required>
+  <img src={{ url_for('static', filename='bunny.jpg') }} style="width:100px;height:100px;">
+</label>
+
+<label>
+  <input type="radio" name="choice" value="/static/boat.jpg" required>
+  <img src={{ url_for('static', filename='boat.jpg') }} style="width:100px;height:100px;">
+</label>
+
+<label>
+  <input type="radio" name="choice" value="/static/guitar.jpg" required>
+  <img src={{ url_for('static', filename='guitar.jpg') }} style="width:100px;height:100px;">
+</label>
+
+<label>
+  <input type="radio" name="choice" value="/static/coffee.jpg" required>
+  <img src={{ url_for('static', filename='coffee.jpg') }} style="width:100px;height:100px;">
+</label>
+
+    <button type="submit" class="finish_button">Finish</button>
+  </form>
+</div>
+
+{% endblock %}

@@ -80,30 +80,28 @@ form {
 
 <div class="centered">
 
-  <form method="POST" action="{{ url_for('profile') }}">
+  <form action="{{ url_for('update_info') }}" method="POST">
 
  
     <p>
-      <p id="name" class = "name">First and Last Name</p>
+      <p id="namehelp" class = "namex">First and Last Name</p>
       <input type="text" class="em_input_section"  id="fullname" name="fullname" placeholder="John Doe">
     </p>
-    <p id="upload" class = "name">Upload a Profile Picture</p>
-    <p> <input id="pro_pic" type="file" name="pro_pic" placeholder="Photo" required="" capture> </p>
     <p>
-      <p id="Bio" class = "name">Tell the Pitt Trails Community about Yourself!</p>
-      <textarea name="bio" id = "bio" style="width:250px;height:150px;"></textarea>
+      <p id="Biohelp" class = "namex">Tell the Pitt Trails Community about Yourself!</p>
+      <textarea name="fullbio" id = "fullbio" style="width:250px;height:150px;"></textarea>
 
     </p>
-
     
-
-
     <button type="submit" class="finish_button">Finish</button>
   </form>
 </div>
 <script>
-	var name = document.getElementById("name");
+	var name = document.getElementById("fullname");
 	var propic = document.getElementById("image");
-	var bio = document.getElementById("bio");
+    var bio = document.getElementById("fullbio");
+    
+
+
 </script>
 {% endblock %}
