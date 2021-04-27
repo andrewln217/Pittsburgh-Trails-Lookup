@@ -1,4 +1,5 @@
 from google.cloud import datastore
+from flask import Flask, url_for
 
 import datetime
 import hashlib
@@ -13,11 +14,10 @@ class UserCredential:
         self.bio = bio
         self.pro_pic = pro_pic
 
-
 def generate_credentials(user_email, password):
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode("utf-8")
     password_hash = hash_password(password, salt)
-    return UserCredential(user_email, password_hash, salt, '', '', '')
+    return UserCredential(user_email, password_hash, salt, '', '', url_for('static', filename='blank.jpg'))
 
 def hash_password(password, salt):
     encoded = password.encode("utf-8")

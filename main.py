@@ -75,20 +75,31 @@ def profile():
     pro_pic = found_user["pro_pic"]
     return render_template("profile.html",userinfo=user,name=name,bio=bio,pro_pic=pro_pic)
 
-
-    
-
 @app.route("/update_info", methods = ["POST","GET"])
 def update_info():
     if request.method == "POST":    
         user = get_user()
+        found_user = userstore.get_profile(user)
         name = request.form.get("fullname")
-        profile_pic = request.form.get("image")
         bio = request.form.get("fullbio")
-        userstore.update_profile(user, name, bio, profile_pic)   
+        pro_pic = found_user["pro_pic"]
+        userstore.update_profile(user, name, bio, pro_pic)
         return redirect(url_for("profile"))
     else:
         return render_template("updateinfo.html")
+
+@app.route("/pic_update", methods = ["POST","GET"])
+def pic_update():
+    if request.method == "POST":
+        user = get_user()
+        found_user = userstore.get_profile(user)
+        name = found_user["name"]
+        bio = found_user["bio"]
+        pro_pic = request.form.get("choice")
+        userstore.update_profile(user, name, bio, pro_pic)
+        return redirect(url_for("profile"))
+    else:
+        return render_template("pic_update.html")        
 
 def get_user():
     return session.get("user", None)
