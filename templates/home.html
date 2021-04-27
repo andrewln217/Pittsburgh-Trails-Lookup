@@ -6,7 +6,9 @@
 <html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/w3css/3/w3.css">
+<!--	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+-->
+    <link rel="stylesheet" type=text/css href="/templates/style.css">
 <body>
 
 <head>
@@ -24,7 +26,7 @@ li {
 }
 
 li a {
-  display: block;
+  display: block;	
   color: white;
   text-align: center;
   padding: 14px 16px;
@@ -35,32 +37,10 @@ li a:hover {
   background-color: rgb(30, 190, 57);
 }
 
-</style>
-<div class = "header">
-<img src="{{url_for('static', filename='logo.png')}}" align="middle" width="10%" />
-</div>
-</head>
-<body>
-
-<ul>
-    <li><a href= "{{ url_for('logout') }}">Log Out</a></li>
-     <li><a href="{{url_for('profile')}}">Profile</a></li>
-    <li><a href= "{{ url_for('trails') }}">Map</a></li>
-    <li><a class="active" href="{{url_for('home')}}">Home</a></li>
-  
-  
-   
-  
-</ul>
-
-
-
-</body>
-
-<p>Looking for the best trails in Pittsburgh? Browse around to plan your next trek! </p>
-<style>
 body {
   font-family: Arial;
+  background-color:rgb(241, 235, 221);
+  
 }
 
 * {
@@ -97,28 +77,278 @@ form.searchbar::after {
   clear: both;
   display: table;
 }
+
+.select2-container {
+    width: 200px;
+}
+
+.select2-drop-active{
+    margin-top: -25px;
+}
+
+.display-3{
+    font-weight: 300;
+    color:rgb(82, 151, 82);
+    outline:10px;
+    outline-color:black;
+    outline-width:thick;
+    font:larger;
+    font-style: oblique;
+    text-shadow:
+   -1px -1px 0 rgb(81, 131, 98),  
+    1px -1px 0 rgb(81, 131, 98),
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
+}
+
+.js-data-park-names{
+    
+}
+.lead{
+    color:rgb(82, 151, 82);
+    text-shadow:
+   -1px -1px 0 rgb(81, 131, 98),  
+    1px -1px 0 rgb(81, 131, 98),
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
+    
+}
+.jumbotron{
+    width: 1265px;
+    background-size: cover;
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #e4d2ac;
+    border-radius: 0;
+     
+}
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position:relative;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+
+.prev:hover, .next:hover {
+  background-color: rgba(43, 112, 40, 0.8);
+}
+
+/* Caption text */
+.text {
+  color: #000000;
+  font-size: 24px;
+  padding: 8px 12px;
+  position: relative;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+   text-shadow:
+   -1px -1px 0 rgb(0, 0, 0),  
+    1px -1px 0 rgb(226, 226, 226),
+    -1px 1px 0 rgba(253, 250, 250, 0),
+     1px 1px 0 rgb(218, 218, 218);
+}
+
+/* Number text (1/4 etc) */
+.number {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+
+  .image{
+    float: left;
+    width:  800px;
+    height: 400px;
+    object-fit: cover;
+    padding-bottom: 1cm;
+
+}
+
+
 </style>
+
+
+<div class = "header">
+<img src="{{url_for('static', filename='logo.png')}}" align="middle" width="10%" />
+</div>
+</head>
+<body>
+
+<ul>
+    <li><a href= "{{ url_for('logout') }}">Log Out</a></li>
+     <li><a href="{{url_for('profile')}}">Profile</a></li>
+    <li><a href= "{{ url_for('trails') }}">Map</a></li>
+    <li><a class="active" href="{{url_for('home')}}">Home</a></li>
+  
+   
+</ul>
+
+
+
+</body>
+
+<div class="jumbotron">
+  <h1 class="display-3">Welcome to PitTrails!</h1>
+  <p class="lead">Looking to plan your next trek? Navigate to our Map page to see all the trails in the Pittsburgh Area!</p>
+  <hr class="my-4">
+ 
+</div>
+<!-- 
+<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+  <div class="card-header">Header</div>
+  <div class="card-body">
+    <h4 class="card-title">Primary card title</h4>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+</div>
+-->
+
+
 </head>
 <body>
 
 
-<form class = "searchbar" action="{{ url_for('search') }}" method="post">
+    <select class="js-data-park-names" multiple="multiple" style="width: 50%">
+        <option></option>        
+    </select>
+    
+<!--<form class = "searchbar" action="{{ url_for('search') }}" method="post">
     <input type="text" name="final--group-four/main.py" placeholder = "Search by Trail Name">
     <button type="submit"><i class="fa fa-search"></i>Go!</button>
-</form>
- 
-
-<section>
-  <img class="mySlides" src="{{url_for('static', filename='pic1.jpg')}}" style="width:100%">
-  <img class="mySlides" src="{{url_for('static', filename='pic2.jpg')}}" style="width:100%">
-  <img class="mySlides" src="{{url_for('static', filename='pic3.jpg')}}"" style="width:100%">
+</form>-->
+    <script defer src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<!--
+    <section>
+    <img class="mySlides" src="{{url_for('static', filename='pic1.jpg')}}" style="width:100%">
+    <img class="mySlides" src="{{url_for('static', filename='pic2.jpg')}}" style="width:100%">
+    <img class="mySlides" src="{{url_for('static', filename='pic3.jpg')}}"" style="width:100%">
 </section>
 
+-->
+
+
+<!-- Slideshow -->
+<div class="slideshow-container">
+
+ 
+  <div class="slides">
+    <div class="number">1 / 4</div>
+    <img src="../static/assets/whiteoaks.jpg" class=image>
+    <div class="text">Settler's Cabin</div>
+  </div>
+
+  <div class="slides">
+    <div class="number">2 / 4</div>
+    <img src="../static/assets/settlerscabin.jpg" class=image>
+    <div class="text">White Oaks</div>
+  </div>
+
+  <div class="slides">
+    <div class="number">3 / 4</div>
+    <img src="../static/assets/deer.jpg" class=image>
+    <div class="text">Deer Lakes</div>
+  </div>
+
+  <div class="slides">
+    <div class="number">4 / 4</div>
+    <img src="../static/assets/harrison.jpg" class=image>
+    <div class="text">Harrison Hills</div>
+  </div>
+
+  <!-- Next and previous buttons -->
+  <a class="prev" onclick="plusSlides(-1)">&#10096;</a>
+  <a class="next" onclick="plusSlides(1)">&#10097;</a>
+</div>
+<br>
+
+
+
 </body>
+
+<script>
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var pics = document.getElementsByClassName("slides");
+  
+  if (n > pics.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = pics.length}
+  for (i = 0; i < pics.length; i++) {
+      pics[i].style.display = "none";  
+  }
+  
+ pics[slideIndex-1].style.display = "block";  
+  
+}
+</script>
 
 
 
 </html>
+
+    <script>
+        var dataURL = "https://openac-alcogis.opendata.arcgis.com/datasets/d182439a9a6344fca2c5bf717b9cace8_0.geojson?outSR=%7B%22latestWkid%22%3A4019%2C%22wkid%22%3A4019%7D";
+        fetch(dataURL)
+        .then(response => response.json())
+        .then(data => {
+            var park = []
+            for (var i in data.features) {
+                var feature = data.features[i];
+                if (feature.properties.Park_Name_Full !== null &&
+                feature.properties.Park_Name_Full !== " " &&
+                park.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1) {
+                park.push({ id: park.length, text: feature.properties.Park_Name_Full, trail: feature });
+                }
+            }
+
+            //var b$ = jQuery.noConflict();
+            $('.js-data-park-names').select2({
+                data: park,
+                placeholder: 'Search by park name'
+            });
+        })
+    
+    </script>
 
 
 
