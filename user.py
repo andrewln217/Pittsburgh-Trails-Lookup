@@ -56,10 +56,10 @@ class UserStore:
         user["pro_pic"] = pro_pic
         self.ds.put(user)
     def get_profile(self,user_email):
-        print(user_email)
+        
         query = self.ds.key("UserCredential", user_email)       
         found_user = self.ds.get(query)
-        print(found_user)
+        
         
         return found_user;
 

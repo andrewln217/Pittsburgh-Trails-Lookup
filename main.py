@@ -76,8 +76,6 @@ def profile():
     if profile_updated == True:
       found_user = userstore.get_profile(user)
       name = found_user["name"]
-      print("Here is the name")
-      print(name)
       bio = found_user["bio"]
       pro_pic = found_user["pro_pic"]
       return render_template("profile.html",userinfo=user,name=name,bio=bio,pro_pic=pro_pic)
@@ -90,16 +88,19 @@ def profile():
 def update_info():
     global profile_updated    
     user = get_user()
-    print(request.form.get("name"))
-    if profile_updated == True:
-        redirect(url_for("profile"))
+    if request.method == "GET":
+        return render_template(("updateinfo.html"))
+    else:
+        name = request.form.get("fullname")
+        profile_pic = request.form.get("pro_pic")
+        bio = request.form.get("bio")
+        print(name)
+        userstore.update_profile(user,name,bio,profile_pic)
+        profile_updated = True
+        return redirect(url_for("profile"))        
+    
         
-    name = request.form.get("name")
-    profile_pic = request.form.get("image")
-    bio = request.form.get("bio")
-    print(name)
-    userstore.update_profile(user,name,bio,profile_pic)
-    profile_updated = True
+   
     
     
         
