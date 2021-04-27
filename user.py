@@ -56,6 +56,7 @@ class UserStore:
 
     def update_profile(self, user_email, name, bio, pro_pic, txn=None):
         user_key = self.ds.key("UserCredential",user_email)
+
         user = self.ds.get(user_key)
         user_email = user["user_email"]
         password_hash = user["password_hash"]

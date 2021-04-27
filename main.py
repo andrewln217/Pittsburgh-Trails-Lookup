@@ -75,6 +75,7 @@ def profile():
     pro_pic = found_user["pro_pic"]
     return render_template("profile.html",userinfo=user,name=name,bio=bio,pro_pic=pro_pic)
 
+
 @app.route("/update_info", methods = ["POST","GET"])
 def update_info():
     if request.method == "POST":    
@@ -100,6 +101,7 @@ def pic_update():
         return redirect(url_for("profile"))
     else:
         return render_template("pic_update.html")        
+
 
 def get_user():
     return session.get("user", None)

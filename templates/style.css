@@ -1,0 +1,92 @@
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgba(20, 90, 23, 0.877);
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;	
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: rgb(30, 190, 57);
+}
+
+body {
+  font-family: Arial;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+form.searchbar input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 50%;
+  background: #f1f1f1;
+}
+
+form.searchbar button {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  background: rgba(20, 90, 23, 0.877);
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.searchbar button:hover {
+  background: #09833c;
+}
+
+form.searchbar::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.select2-container {
+    width: 200px;
+}
+
+.select2-drop-active{
+    margin-top: -25px;
+}
+
+.display-3{
+    font-weight: 300;
+    color: orchid;
+    outline:10px;
+    outline-color:black;
+    outline-width:thick;
+    font:larger;
+    font-style: oblique;
+}
+
+.js-data-park-names{
+    
+}
+.jumbotron{
+    width:1000px;
+}
+.lead{
+    color:orchid;
+}
+
