@@ -1,5 +1,5 @@
 {% extends 'base.html' %} 
-
+{% block title %}Create{% endblock %}
 
 {%block app_content%}
 <!DOCTYPE html>
@@ -10,6 +10,10 @@
     <title>Pitt Trails</title>
 <style>main {
     padding-top: 52px;
+}
+body{
+    font-family: Arial;
+    background-color:rgb(241, 235, 221);
 }
 
 .center {
@@ -43,7 +47,7 @@ form {
     width: 300px;
     margin-left: -10px;
 }
-.finish_button{
+.create_button{
     border-radius: 25px;
     padding: 10px;
     background-color: green;
@@ -58,18 +62,7 @@ form {
     border: none;
     background: none;
     color: green;
-
-
-
 }
-.namex{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: x-large;
-    font-style: oblique;
-    color: green;
-}
-
-
 
 
 </style>
