@@ -120,7 +120,7 @@ li a:hover {
         <script>
             var center = [40.4406, -79.9959];
 			var map = L.map('map', {
-			}).setView(center,9);
+			}).setView(center,10);
 			
 			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				maxZoom: 18
@@ -141,21 +141,19 @@ li a:hover {
                         var feature = data.features[i];
                         if (feature.properties.Difficulty !== null && 
                             feature.properties.Difficulty !== " " && 
-                            difs.findIndex(element => { if (element.text === feature.properties.Difficulty) { return true; } }) == -1)
-                            difs.push({id: difs.length, text: feature.properties.Difficulty});
-                        if (feature.properties.Park_Name_Full !== null && 
-                            feature.properties.Park_Name_Full !== " " &&
-                            park_names.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1)
-                            park_names.push({id: park_names.length, text: feature.properties.Park_Name_Full});
-                        if (feature.properties.Trail_Name !== null && 
-                            feature.properties.Trail_Name !== " " &&
-                            trail_names.findIndex(element => {if (element.text === feature.properties.Trail_Name) { return true; } }) == -1)
-                            trail_names.push({id: trail_names.length, text: feature.properties.Trail_Name});
-                        /*if (feature.properties.Mileage !== null && 
-                            feature.properties.Mileage !== " " &&
-                            mileages.findIndex(element => {if (element.text === feature.properties.Mileages) { return true; } }) == -1)
-                            mileages.push({id: mileages.length, text: "0-0.5 miles", min_length: 0, max_length: 0.5});
-                            */
+                            difs.findIndex(element => { if (element.text === feature.properties.Difficulty) { return true; } }) == -1) {
+                                if (feature.properties.Park_Name_Full !== null && 
+                                feature.properties.Park_Name_Full !== " " &&
+                                park_names.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1) {
+                                    if (feature.properties.Trail_Name !== null && 
+                                    feature.properties.Trail_Name !== " " &&
+                                    trail_names.findIndex(element => {if (element.text === feature.properties.Trail_Name) { return true; } }) == -1) {
+                                        difs.push({id: difs.length, text: feature.properties.Difficulty});
+                                        park_names.push({id: park_names.length, text: feature.properties.Park_Name_Full});
+                                        trail_names.push({id: trail_names.length, text: feature.properties.Trail_Name});
+                                    }
+                                }
+                        }
                     }
                     // Manually set length ranges
                     greater_than.push({id: greater_than.length, text: "0 miles", length: 0});
@@ -213,7 +211,7 @@ li a:hover {
                         layer.bindPopup(`<b>Park Name</b>: ${feature.properties.Park_Name_Full}<br>
                                         <b>Trail Name</b>: ${feature.properties.Trail_Name}<br>
                                         <b>Difficulty</b>: ${feature.properties.Difficulty}<br>
-                                        <b>Length</b>:     ${feature.properties.Mileage}`, {offset: L.point(0, -20)});
+                                        <b>Length</b>:     ${parseFloat(feature.properties.Mileage).toFixed(2)} miles`, {offset: L.point(0, -20)});
                         layer.on('mouseover', function() { layer.openPopup(); });
                         layer.on('mouseout', function() { layer.closePopup(); });
                     }
@@ -222,13 +220,16 @@ li a:hover {
                         filter: (feature) => {
                             if(selectBoxStates.difficulties.length > 0) { // If no checkboxes of a certain class are selected, show all
                                 var isDifficultySelected = selectBoxStates.difficulties.includes(feature.properties.Difficulty);
-                            } else { isDifficultySelected = true;}
+                            } else if (feature.properties.Difficulty !== null && feature.properties.Difficulty !== " ") { 
+                                isDifficultySelected = true; }
                             if(selectBoxStates.park_names.length > 0) {
                                 var isParkSelected = selectBoxStates.park_names.includes(feature.properties.Park_Name_Full);
-                            } else { isParkSelected = true;}
+                            } else if (feature.properties.Park_Name_Full !== null && feature.properties.Park_Name_Full !== " "){
+                                isParkSelected = true;}
                             if(selectBoxStates.trail_names.length > 0) {
                                 var isTrailSelected = selectBoxStates.trail_names.includes(feature.properties.Trail_Name);
-                            } else { isTrailSelected = true;}
+                            } else if (feature.properties.Trail_Name !== null && feature.properties.Trail_Name !== " ") { 
+                                isTrailSelected = true;}
                             if(selectBoxStates.min_length <= parseFloat(feature.properties.Mileage) && selectBoxStates.max_length > parseFloat(feature.properties.Mileage)) {
                                 var isLengthSelected = true;
                             }                             
