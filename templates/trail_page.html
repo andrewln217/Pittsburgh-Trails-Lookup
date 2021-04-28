@@ -20,7 +20,21 @@ ul {
   overflow: hidden;
   background-color: rgba(20, 90, 23, 0.877);
 }
+la {
+  float: center;
+}
 
+la a {
+  display: block;	
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+la a:hover {
+  background-color: rgb(30, 190, 57);
+}
 li {
   float: right;
 }
@@ -101,9 +115,6 @@ form.searchbar::after {
      1px 1px 0 #000;
 }
 
-.js-data-park-names{
-    
-}
 .lead{
     color:rgb(82, 151, 82);
     text-shadow:
@@ -215,17 +226,24 @@ form.searchbar::after {
 
 </body>
 <body>
-
+<div id = "Parkname">
+</div>
+<div id = "Trailname">
+</div> 
+<div id = "difficulty">
+</div>
+<la><a class = update href= "">Like Trail</a></la>
+<la><a class = update href= "{{ url_for('trails') }}">Back to Map</a></la>
 </body>
 
 <script>
-function getTrailData()
-{
+
     var params = new URLSearchParams(window.location.search),
     trail_data = params.get("trail_data");
     var arr = trail_data.split("#");
-}
-
+    document.getElementById("Parkname").innerHTML = arr[0];​
+    document.getElementById("Trailname").innerHTML = arr[1];​
+    document.getElementById("difficulty").innerHTML = arr[2];
 </script>
 
 
