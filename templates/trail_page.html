@@ -244,8 +244,7 @@ document.getElementById("difficulty").innerHTML = arr[2];
 function getTrailData()
 {
     var params = new URLSearchParams(window.location.search),
-    trail_data = params.get("trail_data");
-    var arr = trail_data.split("#");
+    var arr = JSON.parse(params.get("trail_data"));
     ​return arr;
 }
 
