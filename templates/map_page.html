@@ -160,14 +160,16 @@ li a:hover {
                         placeholder: 'Search by trail name'
                     });
                     
-                    let $element = $(".park_name");
-                    let vals = [];
-                    for (let park of search_parks) {
-                        let val = $element.find("option:contains('"+park+"')").val();
-                        vals.push(val);
+                    if (search_parks) {
+                        let $element = $(".park_name");
+                        let vals = [];
+                        for (let park of search_parks) {
+                            let val = $element.find("option:contains('"+park+"')").val();
+                            vals.push(val);
+                        }
+                        $element.val(vals).trigger('change.select2');
                     }
-                    $element.val(vals).trigger('change.select2');
-
+                    
                     // Filter/render
                     let selectBoxStates;
                     
