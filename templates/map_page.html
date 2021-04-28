@@ -211,9 +211,9 @@ li a:hover {
                     
                     function onEachFeature(feature, layer) {
                         layer.bindPopup(`<b>Park Name</b>: ${feature.properties.Park_Name_Full}<br>
-                                        Trail Name: ${feature.properties.Trail_Name}<br>
-                                        Difficulty: ${feature.properties.Difficulty}<br>
-                                        Length:     ${feature.properties.Mileage}`, {offset: L.point(0, -20)});
+                                        <b>Trail Name</b>: ${feature.properties.Trail_Name}<br>
+                                        <b>Difficulty</b>: ${feature.properties.Difficulty}<br>
+                                        <b>Length</b>:     ${feature.properties.Mileage}`, {offset: L.point(0, -20)});
                         layer.on('mouseover', function() { layer.openPopup(); });
                         layer.on('mouseout', function() { layer.closePopup(); });
                     }
