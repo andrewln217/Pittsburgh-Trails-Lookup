@@ -74,7 +74,8 @@ def profile():
     name = found_user["name"]
     bio = found_user["bio"]
     pro_pic = found_user["pro_pic"]
-    return render_template("profile.html",userinfo=user,name=name,bio=bio,pro_pic=pro_pic)
+    likedTrails = found_user["likedTrails"]
+    return render_template("profile.html",userinfo=user,name=name,bio=bio,pro_pic=pro_pic,likedTrails = likedTrails)
 
 
 @app.route("/update_info", methods = ["POST","GET"])
@@ -112,10 +113,26 @@ def update_profile_pic(request):
         print(e)
         return 'error', 500
 
+
 @app.route("/trail_page", methods=["GET"])
 def load_trail_page():
     user = get_user()
     return render_template("trail_page.html", user=user)
+
+@app.route("/likeTrail", methods =["POST","GET"])
+def like_trail():
+    if request.method == "POST":
+        user = get_user()
+        found_user = userstore.get_profile(user)
+        park = request.form.get("Parkname")
+        trail = request.form.get("Trailname")
+        diff = request.form.get("difficulty")
+        trailString = "\nPark: " + park + "Trail " + trail + "Difficulty: " + diff
+        userstore.set_likedTrails(user,trailString)
+        return render_template("map_page.html")
+
+
+
 
 def get_user():
     return session.get("user", None)

@@ -80,13 +80,16 @@ form {
 
 <div class="centered">
 
-  <form action="{{ url_for('update_info') }}" method="POST">
 
- 
+  <form action="{{ url_for('update_info') }}" method="POST" enctype="multipart/form-data">
+
     <p>
       <p id="namehelp" class = "namex">First and Last Name</p>
       <input type="text" class="em_input_section"  id="fullname" name="fullname" placeholder="John Doe">
     </p>
+
+    <p id="upload" class = "namex">Upload a Profile Picture</p>
+      <p> <input id="image" type="file" name="image" placeholder="Photo" required="" capture> </p>
     <p>
       <p id="Biohelp" class = "namex">Tell the Pitt Trails Community about Yourself!</p>
       <textarea name="fullbio" id = "fullbio" style="width:250px;height:150px;"></textarea>
@@ -99,9 +102,8 @@ form {
 <script>
 	var name = document.getElementById("fullname");
 	var propic = document.getElementById("image");
-    var bio = document.getElementById("fullbio");
-    
 
+  var bio = document.getElementById("fullbio");
 
 </script>
 {% endblock %}

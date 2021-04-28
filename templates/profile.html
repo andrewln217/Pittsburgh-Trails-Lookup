@@ -110,6 +110,8 @@ button:hover, a:hover {
   <h1>{{name}}</h1>
   <p class="title">{{userinfo}}</p>
   <p>{{bio}}</p>
+  <p> Favorite Trails: </p>
+  <p>{{likedTrails}}</p>  
   <div style="margin: 24px 0;">
     <a href="#"><i class="fa fa-dribbble"></i></a> 
     <a href="#"><i class="fa fa-twitter"></i></a>  
@@ -117,7 +119,8 @@ button:hover, a:hover {
     <a href="#"><i class="fa fa-facebook"></i></a> 
   </div>
   <li><a class = update href= "{{ url_for('update_info') }}">Update Info</a></li>
-  <li><a class = update href= "{{ url_for('pic_update') }}">Change Profile Picture</a></li>
+
+
 </div>
 
 

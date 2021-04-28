@@ -58,11 +58,11 @@ class UserStore:
 
     def update_profile(self, user_email, name, bio, pro_pic, txn=None):
         user_key = self.ds.key("UserCredential",user_email)
-
         user = self.ds.get(user_key)
         user_email = user["user_email"]
         password_hash = user["password_hash"]
         salt = user["salt"]
+        likedTrails = user["likedTrails"]
         user_key = self.ds.key("UserCredential", user_email)
         new_user = datastore.Entity(key=user_key)
         new_user["user_email"] = user_email
@@ -71,6 +71,7 @@ class UserStore:
         new_user["name"] = name
         new_user["bio"] = bio
         new_user["pro_pic"] = pro_pic
+        new_user["likedTrails"] = likedTrails
         self.ds.put(new_user)
 
     def get_profile(self,user_email, txn=None):
@@ -101,6 +102,30 @@ class UserStore:
             return None
         pro_pic = user["pro_pic"]
         return pro_pic
+
+    def set_likedTrails(self,user_email,liked,txn=None):
+        user_key = self.ds.key("UserCredential",user_email)
+        user = self.ds.get(user_key)
+        user_email = user["user_email"]
+        password_hash = user["password_hash"]
+        salt = user["salt"]
+        name = user["name"]
+        bio = user["bio"]
+        pro_pic = user["pro_pic"]
+        likedTrails = liked
+        likedTrails += user["likedTrails"]
+        user_key = self.ds.key("UserCredential", user_email)
+        new_user = datastore.Entity(key=user_key)
+        new_user["user_email"] = user_email
+        new_user["password_hash"] = password_hash
+        new_user["salt"] = salt
+        new_user["name"] = name
+        new_user["bio"] = bio
+        new_user["pro_pic"] = pro_pic
+        new_user["likedTrails"] = likedTrails
+        self.ds.put(new_user)
+        
+
     
     def get_likedTrails(self, user_email, txn=None):
         user_key = self.ds.key("UserCredential", user_email)
