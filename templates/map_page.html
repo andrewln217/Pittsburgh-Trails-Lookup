@@ -184,10 +184,7 @@ li a:hover {
                     }
 
                     function onClick(feature) {
-                        var trail_data = [];
-                        trail_data.push(feature.properties.Park_Name_Full);
-                        trail_data.push(feature.properties.Trail_Name);
-                        trail_data.push(feature.properties.Difficulty);
+                        var trail_data = [feature.properties.Park_Name_Full, feature.properties.Trail_Name, feature.properties.Difficulty];
                         var params = new URLSearchParams();
                         params.append("trail_data", JSON.stringify(trail_data));
                         var url = "trail_page?" + params.toString();
