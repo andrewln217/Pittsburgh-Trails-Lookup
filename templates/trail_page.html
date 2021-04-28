@@ -252,6 +252,8 @@ form.searchbar::after {
 <p id = "difficulty">
 </p>
 
+<input type="radio" id = "choice" name="choice" value="" checked>
+
 <la> <button type="submit" class="like_button">Like Trail</la>
 
 </form>
@@ -264,9 +266,12 @@ form.searchbar::after {
     var params = new URLSearchParams(window.location.search),
         arr = JSON.parse(params.get("trail_data"));
     //var arr = trail_data.split("#");
+    var string = arr[0] + ' ' + arr[1] + ' ' + arr[2];
     document.getElementById("Parkname").innerHTML = arr[0];
     document.getElementById("Trailname").innerHTML = arr[1];
     document.getElementById("difficulty").innerHTML = arr[2];
+    document.getElementById("choice").style.display = "none";
+    document.getElementById("choice").value = string;
 </script>
 
 
