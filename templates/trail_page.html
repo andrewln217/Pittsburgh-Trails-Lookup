@@ -224,29 +224,36 @@ form.searchbar::after {
 
 
 
-</body>
-<body>
-<div id = "Parkname">
-</div>
-<div id = "Trailname">
-</div> 
-<div id = "difficulty">
-</div>
+    
+<p id = "Parkname">
+</p>
+<p id = "Trailname">
+</p> 
+<p id = "difficulty">
+</p>
 <la><a class = update href= "">Like Trail</a></la>
 <la><a class = update href= "{{ url_for('trails') }}">Back to Map</a></la>
 </body>
+</html>
 
 <script>
-
+var arr = getTrailData();
+document.getElementById("Parkname").innerHTML = arr[0];​
+document.getElementById("Trailname").innerHTML = arr[1];​
+document.getElementById("difficulty").innerHTML = arr[2];
+function getTrailData()
+{
     var params = new URLSearchParams(window.location.search),
     trail_data = params.get("trail_data");
     var arr = trail_data.split("#");
-    document.getElementById("Parkname").innerHTML = arr[0];​
-    document.getElementById("Trailname").innerHTML = arr[1];​
-    document.getElementById("difficulty").innerHTML = arr[2];
+    console.log(arr);
+    ​return arr;
+}
+
+
 </script>
 
 
-</html>
+
 
 {% endblock %}
