@@ -204,7 +204,7 @@ form.searchbar::after {
 
 <ul>
     <li><a href= "{{ url_for('logout') }}">Log Out</a></li>
-     <li><a href="{{url_for('profile')}}">Profile</a></li>
+    <li><a href="{{url_for('profile')}}">Profile</a></li>
     <li><a href= "{{ url_for('trails') }}">Map</a></li>
     <li><a class="active" href="{{url_for('home')}}">Home</a></li>
   
@@ -234,12 +234,27 @@ form.searchbar::after {
 
 </head>
 <body>
-
-
     <select class="js-data-park-names" multiple="multiple" style="width: 50%">
         <option></option>        
     </select>
     
+    <script>
+        function search() {
+            var parks = [];
+            for (let park of $('.js-data-park-names').select2('data')) {
+                parks.push(park.text);
+            }
+
+            var params = new URLSearchParams();
+            params.append("parks", JSON.stringify(parks));
+
+            var url = "trails?" + params.toString();
+            location.href = url
+            window.open(url);
+        }
+    </script>
+
+    <input type="button" value="Search" onclick="search()"/>
 <!--<form class = "searchbar" action="{{ url_for('search') }}" method="post">
     <input type="text" name="final--group-four/main.py" placeholder = "Search by Trail Name">
     <button type="submit"><i class="fa fa-search"></i>Go!</button>

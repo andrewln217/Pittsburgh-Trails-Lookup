@@ -103,7 +103,15 @@ li a:hover {
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         
         <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-		<script>
+        
+        <script>
+            var search_parks = []
+            
+            var params = new URLSearchParams(window.location.search),
+                search_parks = JSON.parse(params.get("parks"));    
+        </script>
+
+        <script>
             var center = [40.4406, -79.9959];
 			var map = L.map('map', {
 			}).setView(center,9);
@@ -152,6 +160,14 @@ li a:hover {
                         placeholder: 'Search by trail name'
                     });
                     
+                    let $element = $(".park_name");
+                    let vals = [];
+                    for (let park of search_parks) {
+                        let val = $element.find("option:contains('"+park+"')").val();
+                        vals.push(val);
+                    }
+                    $element.val(vals).trigger('change.select2');
+
                     // Filter/render
                     let selectBoxStates;
                     
@@ -195,6 +211,8 @@ li a:hover {
                         for (let trail of $('.trail_name').select2('data')) {
                             selectBoxStates.trail_names.push(trail.text);
                         }
+
+                        //park_names.push.apply(selectBoxStates.park_names, search_parks);                        
                     }
                                     
                     for(let select of document.querySelectorAll('select')) {

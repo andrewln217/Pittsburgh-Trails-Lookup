@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, url_for, redirect, session
 from flask_bootstrap import Bootstrap
 from errors import bp as errors_bp
-from google.cloud import datastore
+from google.cloud import datastore, storage
 import json
+import uuid
 
 from user import UserStore, generate_credentials, hash_password
 app = Flask(__name__)
@@ -84,24 +85,32 @@ def update_info():
         name = request.form.get("fullname")
         bio = request.form.get("fullbio")
         pro_pic = found_user["pro_pic"]
+        upload_result, status = update_profile_pic(request)
+        if status == 0:
+            pro_pic = upload_result
         userstore.update_profile(user, name, bio, pro_pic)
         return redirect(url_for("profile"))
     else:
         return render_template("updateinfo.html")
 
-@app.route("/pic_update", methods = ["POST","GET"])
-def pic_update():
-    if request.method == "POST":
-        user = get_user()
-        found_user = userstore.get_profile(user)
-        name = found_user["name"]
-        bio = found_user["bio"]
-        pro_pic = request.form.get("choice")
-        userstore.update_profile(user, name, bio, pro_pic)
-        return redirect(url_for("profile"))
-    else:
-        return render_template("pic_update.html")        
+def update_profile_pic(request):
+    profile_pic = request.files.get("image")
+    if not profile_pic:
+        return 'no image', 400
+    try:  
+        gcpstorage = storage.Client()
 
+        extension = profile_pic.filename.rsplit('.', 1)[1]
+        blobpath = 'Images/{}.{}'.format(uuid.uuid4(), extension)
+
+        bucket = gcpstorage.get_bucket('pitt-trails')
+        blob = bucket.blob(blobpath)
+        blob.upload_from_file(profile_pic)
+
+        return blob.public_url, 0
+    except Exception as e:
+        print(e)
+        return 'error', 500
 
 def get_user():
     return session.get("user", None)
