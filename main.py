@@ -124,7 +124,8 @@ def like_trail():
     if request.method == "POST":
         user = get_user()
         found_user = userstore.get_profile(user)
-        trailString = request.form.get("choice")
+        trails = request.form.get("choice")
+        trailString = trails + "\n"
         userstore.set_likedTrails(user,trailString)
         return render_template("map_page.html")
 
