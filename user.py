@@ -6,18 +6,19 @@ import hashlib
 import os
 
 class UserCredential:
-    def __init__(self, user_email, password_hash, salt, name, bio, pro_pic):
+    def __init__(self, user_email, password_hash, salt, name, bio, pro_pic,likedTrails):
         self.user_email = user_email
         self.password_hash = password_hash
         self.salt = salt
         self.name = name
         self.bio = bio
         self.pro_pic = pro_pic
+        self.likedTrails = likedTrails
 
 def generate_credentials(user_email, password):
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode("utf-8")
     password_hash = hash_password(password, salt)
-    return UserCredential(user_email, password_hash, salt, '', '', url_for('static', filename='blank.jpg'))
+    return UserCredential(user_email, password_hash, salt, '', '', url_for('static', filename='blank.jpg'),'')
 
 def hash_password(password, salt):
     encoded = password.encode("utf-8")
@@ -36,7 +37,7 @@ class UserStore:
         hash_attempt = hash_password(password, user["salt"])
         if hash_attempt != user["password_hash"]:
             return None
-        return UserCredential(user["user_email"], user["password_hash"], user["salt"], user["name"], user["bio"], user["pro_pic"])
+        return UserCredential(user["user_email"], user["password_hash"], user["salt"], user["name"], user["bio"], user["pro_pic"], user["likedTrails"])
 
     def store_new_credentials(self, creds, txn=None):
         user_key = self.ds.key("UserCredential", creds.user_email)
@@ -47,6 +48,7 @@ class UserStore:
         user["name"] = creds.name
         user["bio"] = creds.bio
         user["pro_pic"] = creds.pro_pic
+        user["likedTrails"] = creds.likedTrails
         self.ds.put(user)
 
     def list_existing_users(self, txn=None):
@@ -99,3 +101,11 @@ class UserStore:
             return None
         pro_pic = user["pro_pic"]
         return pro_pic
+    
+    def get_likedTrails(self, user_email, txn=None):
+        user_key = self.ds.key("UserCredential", user_email)
+        user = datastore.Entity(key=user_key);
+        if not user:
+            return None
+        likedTrails = user["likedTrails"]
+        return likedTrails
