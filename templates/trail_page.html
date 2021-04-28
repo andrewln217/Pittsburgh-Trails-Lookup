@@ -237,12 +237,12 @@ form.searchbar::after {
 </body>
 
 <script>
-
+    var arr = [];
     var params = new URLSearchParams(window.location.search),
-    trail_data = params.get("trail_data");
-    var arr = trail_data.split("#");
-    document.getElementById("Parkname").innerHTML = arr[0];​
-    document.getElementById("Trailname").innerHTML = arr[1];​
+        arr = JSON.parse(params.get("trail_data"));
+    //var arr = trail_data.split("#");
+    document.getElementById("Parkname").innerHTML = arr[0];
+    document.getElementById("Trailname").innerHTML = arr[1];
     document.getElementById("difficulty").innerHTML = arr[2];
 </script>
 
