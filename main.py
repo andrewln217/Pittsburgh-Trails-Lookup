@@ -112,6 +112,13 @@ def update_profile_pic(request):
         print(e)
         return 'error', 500
 
+
+@app.route("/trail_page", methods=["GET"])
+def load_trail_page():
+    user = get_user()
+    return render_template("trail_page.html", user=user)
+
+
 def get_user():
     return session.get("user", None)
 

@@ -48,6 +48,7 @@ body {
 }
 
 form.searchbar input[type=text] {
+    align: left;
   padding: 10px;
   font-size: 17px;
   border: 1px solid grey;
@@ -56,19 +57,18 @@ form.searchbar input[type=text] {
   background: #f1f1f1;
 }
 
-form.searchbar button {
-  float: left;
-  width: 30%;
+ .search {
+  align: right;
+  width: 10%;
+  height: 90%
   padding: 10px;
   background: rgba(20, 90, 23, 0.877);
   color: white;
   font-size: 17px;
-  border: 1px solid grey;
-  border-left: none;
-  cursor: pointer;
+  border: 1px solid grey; 
 }
 
-form.searchbar button:hover {
+.search :hover {
   background: #09833c;
 }
 
@@ -254,7 +254,7 @@ form.searchbar::after {
         }
     </script>
 
-    <input type="button" value="Search" onclick="search()"/>
+    <input type="button" class = "search" value="Search" onclick="search()"/>
 <!--<form class = "searchbar" action="{{ url_for('search') }}" method="post">
     <input type="text" name="final--group-four/main.py" placeholder = "Search by Trail Name">
     <button type="submit"><i class="fa fa-search"></i>Go!</button>
