@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %} 
 
 {%block app_content%}
@@ -178,7 +179,17 @@ li a:hover {
                                         Trail Name: ${feature.properties.Trail_Name}<br>
                                         Difficulty: ${feature.properties.Difficulty}`, {offset: L.point(0, -20)});
                         layer.on('mouseover', function() { layer.openPopup(); });
-                        layer.on('mouseout', function() { layer.closePopup(); });
+                        //layer.on('mouseout', function() { layer.closePopup(); });
+                        layer.on('click', function() { onClick(feature, layer); });
+                    }
+
+                    function onClick(feature) {
+                        var trail_data = [feature.properties.Park_Name_Full, feature.properties.Trail_Name, feature.properties.Difficulty];
+                        var params = new URLSearchParams();
+                        params.append("trail_data", JSON.stringify(trail_data));
+                        var url = "trail_page?" + params.toString();
+                        location.href = url
+                        window.open(url);
                     }
 
                     const geoJsonLayer = L.geoJSON(null, {
