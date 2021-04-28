@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 -->
-    <link rel="stylesheet" type=text/css href="/templates/style.css">
+    <link rel="stylesheet" type=text/css href="style.css">
 <body>
 
 <head>
@@ -361,12 +361,25 @@ function showSlides(n) {
             var park = []
             for (var i in data.features) {
                 var feature = data.features[i];
+                if (feature.properties.Difficulty !== null && 
+                    feature.properties.Difficulty !== " ") {                             
+                    if (feature.properties.Park_Name_Full !== null &&  
+                        feature.properties.Park_Name_Full !== " ") {
+                        if (feature.properties.Trail_Name !== null && 
+                        feature.properties.Trail_Name !== " ") {
+                            if(park.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1)
+                                park.push({id: park.length, text: feature.properties.Park_Name_Full});
+                        }
+                    }
+                }  
+                /*var feature = data.features[i];
                 if (feature.properties.Park_Name_Full !== null &&
                 feature.properties.Park_Name_Full !== " " &&
                 park.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1) {
-                park.push({ id: park.length, text: feature.properties.Park_Name_Full, trail: feature });
-                }
+                park.push({ id: park.length, text: feature.properties.Park_Name_Full, trail: feature });*/
             }
+
+
 
             //var b$ = jQuery.noConflict();
             $('.js-data-park-names').select2({

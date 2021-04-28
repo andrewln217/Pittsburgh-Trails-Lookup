@@ -150,17 +150,20 @@ li a:hover {
                     for (var i in data.features) {
                         var feature = data.features[i];
                         if (feature.properties.Difficulty !== null && 
-                            feature.properties.Difficulty !== " " && 
-                            difs.findIndex(element => { if (element.text === feature.properties.Difficulty) { return true; } }) == -1) 
-                            difs.push({id: difs.length, text: feature.properties.Difficulty});
-                        if (feature.properties.Park_Name_Full !== null && 
-                            feature.properties.Park_Name_Full !== " " &&
-                            park_names.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1)
-                            park_names.push({id: park_names.length, text: feature.properties.Park_Name_Full});
-                        if (feature.properties.Trail_Name !== null && 
-                            feature.properties.Trail_Name !== " " &&
-                            trail_names.findIndex(element => {if (element.text === feature.properties.Trail_Name) { return true; } }) == -1)
-                            trail_names.push({id: trail_names.length, text: feature.properties.Trail_Name});       
+                            feature.properties.Difficulty !== " ") {                             
+                            if (feature.properties.Park_Name_Full !== null &&  
+                                feature.properties.Park_Name_Full !== " ") {
+                                if (feature.properties.Trail_Name !== null && 
+                                feature.properties.Trail_Name !== " ") {
+                                    if(difs.findIndex(element => { if (element.text === feature.properties.Difficulty) { return true; } }) == -1)
+                                        difs.push({id: difs.length, text: feature.properties.Difficulty});
+                                    if(park_names.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1)
+                                        park_names.push({id: park_names.length, text: feature.properties.Park_Name_Full});
+                                    if(trail_names.findIndex(element => {if (element.text === feature.properties.Trail_Name) { return true; } }) == -1)
+                                        trail_names.push({id: trail_names.length, text: feature.properties.Trail_Name});     
+                                }
+                            }
+                        }  
                     }
                     // Manually set length ranges
                     greater_than.push({id: greater_than.length, text: "0 miles", length: 0});
