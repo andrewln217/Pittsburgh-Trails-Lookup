@@ -6,9 +6,7 @@ import hashlib
 import os
 
 class UserCredential:
-
     def __init__(self, user_email, password_hash, salt, name, bio, pro_pic,likedTrails):
-
         self.user_email = user_email
         self.password_hash = password_hash
         self.salt = salt
@@ -17,12 +15,10 @@ class UserCredential:
         self.pro_pic = pro_pic
         self.likedTrails = likedTrails
 
-
 def generate_credentials(user_email, password):
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode("utf-8")
     password_hash = hash_password(password, salt)
     return UserCredential(user_email, password_hash, salt, '', '', url_for('static', filename='blank.jpg'),'')
-
 
 def hash_password(password, salt):
     encoded = password.encode("utf-8")
@@ -43,7 +39,6 @@ class UserStore:
             return None
         return UserCredential(user["user_email"], user["password_hash"], user["salt"], user["name"], user["bio"], user["pro_pic"], user["likedTrails"])
 
-
     def store_new_credentials(self, creds, txn=None):
         user_key = self.ds.key("UserCredential", creds.user_email)
         user = datastore.Entity(key=user_key)
@@ -54,7 +49,6 @@ class UserStore:
         user["bio"] = creds.bio
         user["pro_pic"] = creds.pro_pic
         user["likedTrails"] = creds.likedTrails
-
         self.ds.put(user)
 
     def list_existing_users(self, txn=None):
@@ -69,6 +63,7 @@ class UserStore:
         user_email = user["user_email"]
         password_hash = user["password_hash"]
         salt = user["salt"]
+        likedTrails = user["likedTrails"]
         user_key = self.ds.key("UserCredential", user_email)
         new_user = datastore.Entity(key=user_key)
         new_user["user_email"] = user_email
@@ -77,6 +72,7 @@ class UserStore:
         new_user["name"] = name
         new_user["bio"] = bio
         new_user["pro_pic"] = pro_pic
+        new_user["likedTrails"] = likedTrails
         self.ds.put(new_user)
 
     def get_profile(self,user_email, txn=None):
@@ -106,7 +102,6 @@ class UserStore:
         if not user:
             return None
         pro_pic = user["pro_pic"]
-
         return pro_pic
     
     def get_likedTrails(self, user_email, txn=None):
@@ -116,4 +111,3 @@ class UserStore:
             return None
         likedTrails = user["likedTrails"]
         return likedTrails
-
