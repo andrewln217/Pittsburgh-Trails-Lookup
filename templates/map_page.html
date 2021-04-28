@@ -97,6 +97,12 @@ li a:hover {
         <select class="trail_name" multiple="multiple" style="width: 50%">
             <option></option>        
         </select>
+        <select class="greater_than" style="width: 50%">
+            <option></option>        
+        </select>
+        <select class="less_than" style="width: 50%">
+            <option></option>        
+        </select>
         
         <!-- Ajax/Select2 for selectbox-->
         <script defer src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -115,7 +121,7 @@ li a:hover {
         <script>
             var center = [40.4406, -79.9959];
 			var map = L.map('map', {
-			}).setView(center,9);
+			}).setView(center,10);
 			
 			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				maxZoom: 18
@@ -129,23 +135,40 @@ li a:hover {
                     var difs = [];
                     var park_names = [];
                     var trail_names = [];
-                    
+                    var greater_than = [];
+                    var less_than = [];
+
                     for (var i in data.features) {
                         var feature = data.features[i];
                         if (feature.properties.Difficulty !== null && 
                             feature.properties.Difficulty !== " " && 
-                            difs.findIndex(element => { if (element.text === feature.properties.Difficulty) { return true; } }) == -1)
-                            difs.push({id: difs.length, text: feature.properties.Difficulty});
-                        if (feature.properties.Park_Name_Full !== null && 
-                            feature.properties.Park_Name_Full !== " " &&
-                            park_names.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1)
-                            park_names.push({id: park_names.length, text: feature.properties.Park_Name_Full});
-                        if (feature.properties.Trail_Name !== null && 
-                            feature.properties.Trail_Name !== " " &&
-                            trail_names.findIndex(element => {if (element.text === feature.properties.Trail_Name) { return true; } }) == -1)
-                            trail_names.push({id: trail_names.length, text: feature.properties.Trail_Name});
+                            difs.findIndex(element => { if (element.text === feature.properties.Difficulty) { return true; } }) == -1) {
+                                if (feature.properties.Park_Name_Full !== null && 
+                                feature.properties.Park_Name_Full !== " " &&
+                                park_names.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1) {
+                                    if (feature.properties.Trail_Name !== null && 
+                                    feature.properties.Trail_Name !== " " &&
+                                    trail_names.findIndex(element => {if (element.text === feature.properties.Trail_Name) { return true; } }) == -1) {
+                                        difs.push({id: difs.length, text: feature.properties.Difficulty});
+                                        park_names.push({id: park_names.length, text: feature.properties.Park_Name_Full});
+                                        trail_names.push({id: trail_names.length, text: feature.properties.Trail_Name});
+                                    }
+                                }
+                        }
                     }
-                    
+                    // Manually set length ranges
+                    greater_than.push({id: greater_than.length, text: "0 miles", length: 0});
+                    greater_than.push({id: greater_than.length, text: "0.5 miles", length: 0.5});
+                    greater_than.push({id: greater_than.length, text: "1 miles", length: 1});
+                    greater_than.push({id: greater_than.length, text: "2 miles", length: 2});
+                    greater_than.push({id: greater_than.length, text: "5 miles", length: 5});
+
+                    for(let x of greater_than) {
+                        less_than.push(x);
+                    }
+                    less_than.push({id: less_than.length, text: "10 miles", length: 10});
+                    less_than.shift(); // Remove less than 0 option
+
                     $('.difficulty').select2({
                         data: difs,
                         placeholder: 'Search by difficulty'
@@ -160,7 +183,18 @@ li a:hover {
                         data: trail_names,
                         placeholder: 'Search by trail name'
                     });
+
+                    $('.greater_than').select2({
+                        data: greater_than,
+                        placeholder: 'Minimum length'
+                    });
+
+                    $('.less_than').select2({
+                        data: less_than,
+                        placeholder: 'Maximum length'
+                    })
                     
+                    // Preselect parks if query string is not empty
                     if (search_parks) {
                         let $element = $(".park_name");
                         let vals = [];
@@ -170,14 +204,15 @@ li a:hover {
                         }
                         $element.val(vals).trigger('change.select2');
                     }
-                    
+
                     // Filter/render
                     let selectBoxStates;
                     
                     function onEachFeature(feature, layer) {
-                        layer.bindPopup(`Park Name: ${feature.properties.Park_Name_Full}<br>
-                                        Trail Name: ${feature.properties.Trail_Name}<br>
-                                        Difficulty: ${feature.properties.Difficulty}`, {offset: L.point(0, -20)});
+                        layer.bindPopup(`<b>Park Name</b>: ${feature.properties.Park_Name_Full}<br>
+                                        <b>Trail Name</b>: ${feature.properties.Trail_Name}<br>
+                                        <b>Difficulty</b>: ${feature.properties.Difficulty}<br>
+                                        <b>Length</b>:     ${parseFloat(feature.properties.Mileage).toFixed(2)} miles`, {offset: L.point(0, -20)});
                         layer.on('mouseover', function() { layer.openPopup(); });
                         //layer.on('mouseout', function() { layer.closePopup(); });
                         layer.on('click', function() { onClick(feature, layer); });
@@ -196,15 +231,20 @@ li a:hover {
                         filter: (feature) => {
                             if(selectBoxStates.difficulties.length > 0) { // If no checkboxes of a certain class are selected, show all
                                 var isDifficultySelected = selectBoxStates.difficulties.includes(feature.properties.Difficulty);
-                            } else { isDifficultySelected = true;}
+                            } else if (feature.properties.Difficulty !== null && feature.properties.Difficulty !== " ") { 
+                                isDifficultySelected = true; }
                             if(selectBoxStates.park_names.length > 0) {
                                 var isParkSelected = selectBoxStates.park_names.includes(feature.properties.Park_Name_Full);
-                            } else { isParkSelected = true;}
+                            } else if (feature.properties.Park_Name_Full !== null && feature.properties.Park_Name_Full !== " "){
+                                isParkSelected = true;}
                             if(selectBoxStates.trail_names.length > 0) {
                                 var isTrailSelected = selectBoxStates.trail_names.includes(feature.properties.Trail_Name);
-                            } else { isTrailSelected = true;}
-                            
-                            return isDifficultySelected && isParkSelected && isTrailSelected; // Need properties of each class to be true to show
+                            } else if (feature.properties.Trail_Name !== null && feature.properties.Trail_Name !== " ") { 
+                                isTrailSelected = true;}
+                            if(selectBoxStates.min_length <= parseFloat(feature.properties.Mileage) && selectBoxStates.max_length > parseFloat(feature.properties.Mileage)) {
+                                var isLengthSelected = true;
+                            }                             
+                            return isDifficultySelected && isParkSelected && isTrailSelected && isLengthSelected; // Need properties of each class to be true to show
                         },
                         onEachFeature, onEachFeature
                     }).addTo(map);
@@ -213,7 +253,9 @@ li a:hover {
                         selectBoxStates = {
                             difficulties: [],
                             park_names: [],
-                            trail_names: []
+                            trail_names: [],
+                            min_length: 0,
+                            max_length: 10
                         };
                         for (let dif of $('.difficulty').select2('data')) {
                             selectBoxStates.difficulties.push(dif.text);
@@ -224,8 +266,13 @@ li a:hover {
                         for (let trail of $('.trail_name').select2('data')) {
                             selectBoxStates.trail_names.push(trail.text);
                         }
-
-                        //park_names.push.apply(selectBoxStates.park_names, search_parks);                        
+                        var min = $('.greater_than').select2('data');
+                        if(min[0].text !== "") 
+                            selectBoxStates.min_length = min[0].length;
+                        
+                        var max = $('.less_than').select2('data');
+                        if(max[0].text !== "")
+                            selectBoxStates.max_length = max[0].length;
                     }
                                     
                     for(let select of document.querySelectorAll('select')) {
