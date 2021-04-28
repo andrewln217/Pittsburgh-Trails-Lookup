@@ -25,6 +25,7 @@ la {
 }
 
 la a {
+    position: relative;
   display: block;	
   color: white;
   text-align: center;
@@ -202,6 +203,23 @@ form.searchbar::after {
     padding-bottom: 1cm;
 
 }
+.like_button{
+  
+  background: rgba(20, 90, 23, 0.877);
+  font-size: 17px;
+  color: white
+  
+
+}
+.like_button:hover {
+  background-color: rgb(30, 190, 57);
+}
+.update{
+  
+  font-size: 17px;
+  
+
+}
 
 
 </style>
@@ -223,6 +241,8 @@ form.searchbar::after {
 </ul>
 
 
+<form action = "{{url_for('like_trail') }}" method = "POST">
+    
 
     
 <p id = "Parkname">
@@ -231,7 +251,10 @@ form.searchbar::after {
 </p> 
 <p id = "difficulty">
 </p>
-<la><a class = update href= "">Like Trail</a></la>
+
+<la> <button type="submit" class="like_button">Like Trail</la>
+
+</form>
 <la><a class = update href= "{{ url_for('trails') }}">Back to Map</a></la>
 </body>
 </html>
