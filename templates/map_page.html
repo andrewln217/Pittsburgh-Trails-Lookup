@@ -70,7 +70,16 @@ li a:hover {
 
 			li a:hover {
 			background-color: #111;
-			}
+            }
+            
+            /* Selectbox styling */
+            ul.select2-results__options {
+                background-color: #f1f1f1;
+            }
+
+            li.select2-results__option--selectable {
+                float: left
+            }
 		</style>
     </head>
     
@@ -121,7 +130,7 @@ li a:hover {
         <script>
             var center = [40.4406, -79.9959];
 			var map = L.map('map', {
-			}).setView(center,10);
+			}).setView(center,9);
 			
 			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				maxZoom: 18
@@ -142,19 +151,16 @@ li a:hover {
                         var feature = data.features[i];
                         if (feature.properties.Difficulty !== null && 
                             feature.properties.Difficulty !== " " && 
-                            difs.findIndex(element => { if (element.text === feature.properties.Difficulty) { return true; } }) == -1) {
-                                if (feature.properties.Park_Name_Full !== null && 
-                                feature.properties.Park_Name_Full !== " " &&
-                                park_names.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1) {
-                                    if (feature.properties.Trail_Name !== null && 
-                                    feature.properties.Trail_Name !== " " &&
-                                    trail_names.findIndex(element => {if (element.text === feature.properties.Trail_Name) { return true; } }) == -1) {
-                                        difs.push({id: difs.length, text: feature.properties.Difficulty});
-                                        park_names.push({id: park_names.length, text: feature.properties.Park_Name_Full});
-                                        trail_names.push({id: trail_names.length, text: feature.properties.Trail_Name});
-                                    }
-                                }
-                        }
+                            difs.findIndex(element => { if (element.text === feature.properties.Difficulty) { return true; } }) == -1) 
+                            difs.push({id: difs.length, text: feature.properties.Difficulty});
+                        if (feature.properties.Park_Name_Full !== null && 
+                            feature.properties.Park_Name_Full !== " " &&
+                            park_names.findIndex(element => { if (element.text === feature.properties.Park_Name_Full) { return true; } }) == -1)
+                            park_names.push({id: park_names.length, text: feature.properties.Park_Name_Full});
+                        if (feature.properties.Trail_Name !== null && 
+                            feature.properties.Trail_Name !== " " &&
+                            trail_names.findIndex(element => {if (element.text === feature.properties.Trail_Name) { return true; } }) == -1)
+                            trail_names.push({id: trail_names.length, text: feature.properties.Trail_Name});       
                     }
                     // Manually set length ranges
                     greater_than.push({id: greater_than.length, text: "0 miles", length: 0});
